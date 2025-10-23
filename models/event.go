@@ -76,6 +76,52 @@ func GetAllEvents() ([]Event, error) {
 	return events, nil
 }
 
+func GetEventById(id int64) (*Event, error) {
+	query := `
+	SELECT * FROM events WHERE id = ?
+	`
+	row := db.DB.QueryRow(query, id)
+	var event Event
+	err := row.Scan(&event.ID, &event.Name, &event.Description, &event.Location, &event.DateTime, &event.UserID)
+	if err != nil {
+		return nil, err
+	}
+	return &event, nil
+}
+
+func (event Event) Update() error {
+	query := `
+	UPDATE events
+	SET name = ?, description = ?, location = ?, dateTime = ?
+	WHERE id = ?
+	`
+
+	stmt, err := db.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(event.Name, event.Description, event.Location, event.DateTime, event.ID)
+	return nil
+}
+
+func (event Event) Delete() error {
+	query := `
+	DELETE FROM events WHERE id = ?
+	`
+	stmt, err := db.DB.Prepare(query)
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(event.ID)
+	return nil
+}
+
 /*
 Note:
 - .Exec() ใช้สําหรับการสร้าง แก้ไข ลบ ข้อมูล
