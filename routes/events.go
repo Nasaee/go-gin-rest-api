@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetEvents(context *gin.Context) {
+func getEvents(context *gin.Context) {
 	events, err := models.GetAllEvents()
 	if err != nil {
 		log.Println(err)
@@ -18,7 +18,7 @@ func GetEvents(context *gin.Context) {
 	context.JSON(http.StatusOK, events)
 }
 
-func GetEvent(context *gin.Context) {
+func getEvent(context *gin.Context) {
 	eventId, err := strconv.ParseInt(context.Param("id"), 10, 64)
 	if err != nil {
 		log.Println(err)
@@ -35,7 +35,7 @@ func GetEvent(context *gin.Context) {
 	context.JSON(http.StatusOK, event)
 }
 
-func CreateEvents(context *gin.Context) {
+func createEvents(context *gin.Context) {
 	var event models.Event
 	// ShouldBindJSON : มันมีหน้าที่ อ่าน JSON จาก request body แล้วแปลงเป็น struct ที่คุณส่งเข้าไป
 	err := context.ShouldBindJSON(&event)
@@ -56,7 +56,7 @@ func CreateEvents(context *gin.Context) {
 	context.JSON(http.StatusCreated, gin.H{"message": "Event created.", "event": event})
 }
 
-func UpdateEvent(context *gin.Context) {
+func updateEvent(context *gin.Context) {
 	eventId, err := strconv.ParseInt(context.Param("id"), 10, 64)
 	if err != nil {
 		log.Println(err)
@@ -89,7 +89,7 @@ func UpdateEvent(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"message": "Event updated successfully."})
 }
 
-func DeleteEvent(context *gin.Context) {
+func deleteEvent(context *gin.Context) {
 	eventId, err := strconv.ParseInt(context.Param("id"), 10, 64)
 	if err != nil {
 		log.Println(err)

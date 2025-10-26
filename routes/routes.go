@@ -3,9 +3,10 @@ package routes
 import "github.com/gin-gonic/gin"
 
 func RegisterRoutes(server *gin.Engine) {
-	server.GET("/events", GetEvents)
-	server.GET("/events/:id", GetEvent)
-	server.POST("/events", CreateEvents)
-	server.PUT("/events/:id", UpdateEvent)
-	server.DELETE("/events/:id", DeleteEvent)
+	server.GET("/events", getEvents)
+	server.GET("/events/:id", getEvent)
+	server.POST("/events", createEvents)
+	server.PUT("/events/:id", updateEvent)
+	server.DELETE("/events/:id", deleteEvent)
+	server.POST("/signup", signup)
 }
