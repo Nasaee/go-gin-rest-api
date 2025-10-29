@@ -13,7 +13,7 @@ type Event struct {
 	Description string    `json:"description" binding:"required,min=1,max=2000"`
 	Location    string    `json:"location"    binding:"required"`
 	DateTime    time.Time `json:"dateTime"    binding:"required"`
-	UserID      int       `json:"userId"`
+	UserID      int64       `json:"userId"`
 }
 
 func (e *Event) Save() error {

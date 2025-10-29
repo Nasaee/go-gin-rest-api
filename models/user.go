@@ -1,6 +1,8 @@
 package models
 
 import (
+	"errors"
+
 	"github.com/Nasaee/go-gin-rest-api/db"
 	"github.com/Nasaee/go-gin-rest-api/utils"
 )
@@ -35,4 +37,26 @@ func (u *User) Save() error {
 
 	u.ID = userId
 	return nil
+}
+
+func (u *User) ValidateCredentials ()error {
+	query := `
+SELECT id, password FROM users
+WHERE email = ?
+`
+row := db.DB.QueryRow(query, u.Email)
+
+var retrievedPassword string
+err := row.Scan(&u.ID, &retrievedPassword)
+if err != nil {
+    return err
+}
+
+	passwordIsValid := utils.CheckPasswordHash(u.Password, retrievedPassword)
+	if !passwordIsValid {
+		return errors.New("Credentials invalid")
+	}
+
+	return  nil
+	
 }
