@@ -6,6 +6,12 @@ import (
 	"github.com/Nasaee/go-gin-rest-api/db"
 )
 
+/*
+Note:
+- .Exec() ใช้สําหรับการสร้าง แก้ไข ลบ ข้อมูล
+- .Query() ใช้สําหรับการดึงข้อมูล
+*/
+
 // Gin จะ ตรวจสอบด้วย ว่าค่าในแต่ละ field ที่มี binding:"required" ถูกส่งมาหรือเปล่า ถ้าไม่ส่งมาจะ return error
 type Event struct {
 	ID          int64     `json:"id"`
@@ -122,8 +128,17 @@ func (event Event) Delete() error {
 	return nil
 }
 
-/*
-Note:
-- .Exec() ใช้สําหรับการสร้าง แก้ไข ลบ ข้อมูล
-- .Query() ใช้สําหรับการดึงข้อมูล
-*/
+func (e *Event) Register(userId int64) error {
+	query := "INSERT INTO registrations (event_id, user_id) VALUES (?, ?)"
+	stmt, err := db.DB.Prepare(query)
+
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(e.ID, userId)
+
+	return err
+}
