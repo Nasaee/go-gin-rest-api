@@ -6,7 +6,6 @@ import (
 	"strconv"
 
 	"github.com/Nasaee/go-gin-rest-api/models"
-	"github.com/Nasaee/go-gin-rest-api/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,26 +36,17 @@ func getEvent(context *gin.Context) {
 }
 
 func createEvents(context *gin.Context) {
-	token := context.Request.Header.Get("Authorization")
-	if token == "" {
-		context.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized."})
-		return
-	}
 
-	userId,err := utils.VerifyToken(token)
-	if err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized."})
-		return
-	}
 
 	var event models.Event
 	// ShouldBindJSON : มันมีหน้าที่ อ่าน JSON จาก request body แล้วแปลงเป็น struct ที่คุณส่งเข้าไป
-	err = context.ShouldBindJSON(&event)
+	err := context.ShouldBindJSON(&event)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
 		return
 	}
 
+	userId := context.GetInt64("userId")
 	event.UserID = userId
 
 	err = event.Save()
@@ -124,3 +114,5 @@ func deleteEvent(context *gin.Context) {
 
 	context.JSON(http.StatusOK, gin.H{"message": "Event deleted successfully."})
 }
+
+
