@@ -36,8 +36,6 @@ func getEvent(context *gin.Context) {
 }
 
 func createEvents(context *gin.Context) {
-
-
 	var event models.Event
 	// ShouldBindJSON : มันมีหน้าที่ อ่าน JSON จาก request body แล้วแปลงเป็น struct ที่คุณส่งเข้าไป
 	err := context.ShouldBindJSON(&event)
@@ -68,7 +66,6 @@ func updateEvent(context *gin.Context) {
 
 	userId := context.GetInt64("userId")
 	event, err := models.GetEventById(eventId)
-
 	if err != nil {
 		log.Println(err)
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not get event."})
@@ -127,5 +124,3 @@ func deleteEvent(context *gin.Context) {
 
 	context.JSON(http.StatusOK, gin.H{"message": "Event deleted successfully."})
 }
-
-

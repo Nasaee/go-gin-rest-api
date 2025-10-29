@@ -12,15 +12,14 @@ const secretKey = "somesupersecretkey"
 
 func GenerateToken(email string, userId int64) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"email": email,
+		"email":  email,
 		"userId": userId,
-		"exp": time.Now().Add(time.Hour * 2).Unix(),
+		"exp":    time.Now().Add(time.Hour * 2).Unix(),
 	})
 	return token.SignedString([]byte(secretKey))
 }
 
-
-func VerifyToken(token string) (int64,error) {
+func VerifyToken(token string) (int64, error) {
 	parsedToken, err := jwt.Parse(token, func(t *jwt.Token) (any, error) {
 		_, ok := t.Method.(*jwt.SigningMethodHMAC)
 
@@ -31,7 +30,6 @@ func VerifyToken(token string) (int64,error) {
 
 		return []byte(secretKey), nil
 	})
-
 	if err != nil {
 		return 0, errors.New("Could not parse token.")
 	}
@@ -50,15 +48,15 @@ func VerifyToken(token string) (int64,error) {
 
 	exp, ok := claims["exp"].(float64)
 	if !ok {
-    return 0, errors.New("Invalid exp in token")
+		return 0, errors.New("Invalid exp in token")
 	}
 
 	if time.Now().Unix() > int64(exp) {
-    return 0, errors.New("Token is expired.")
+		return 0, errors.New("Token is expired.")
 	}
 
 	// email := claims["email"].(string)
 	userId := int64(claims["userId"].(float64))
 
-	return  userId, nil
+	return userId, nil
 }

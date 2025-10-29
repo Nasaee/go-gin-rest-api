@@ -1,6 +1,6 @@
 POST http://localhost:8080/events
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJleHAiOjE3NjE3MzI2NzcsInVzZXJJZCI6MX0.kEDJ59ba76u0lSZBple6nKfgmHH_Qgz8Fsf8lGE3y7g
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJleHAiOjE3NjE3NTY5MTgsInVzZXJJZCI6MX0.0sw_iBakEXnpqtxY4K-tzwt4-W8jzAZjjPkCLSFVnsU
 
 {
     "name": "Test Event 99",

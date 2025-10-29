@@ -62,7 +62,7 @@ func createTables() {
 	)
 	`
 
-	_, err =DB.Exec(createRegistrationsTable)
+	_, err = DB.Exec(createRegistrationsTable)
 	if err != nil {
 		panic("Could not create registrations table.")
 	}
